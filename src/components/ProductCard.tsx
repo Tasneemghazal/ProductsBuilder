@@ -1,24 +1,31 @@
 import ImgCom from "./ImgCom";
 import { Button } from "./UI/Button";
+import { productList } from "./data/data";
+import { IProduct } from "./interfaces/interfaces";
+import { textSclicer } from "./utilities/functions";
 
-interface Iprops {}
+interface Iprops {
+  product:IProduct
+}
 
-export const ProductCard = ({}: Iprops) => {
+export const ProductCard = ({product}: Iprops) => {
+  
+  
   return (
     <div className="border rounded-md p-2 flex flex-col">
-      <ImgCom imgUrl="https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960"
+      <ImgCom imgUrl={product.imageURL}
        alt={"product image"}
        className="rounded-md mb-2"/>
-      <h3>2020 modern cars</h3>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit, molestiae minima</p>
+      <h3>{product.title}</h3>
+      <p>{textSclicer(product.description)}</p>
       <div className="flex my-2 space-x-1">
       <span className="w-5 h-5 bg-indigo-500 rounded-full cursor-pointer"/>
       <span className="w-5 h-5 bg-yellow-500 rounded-full cursor-pointer"/>
       <span className="w-5 h-5 bg-red-500 rounded-full cursor-pointer"/>
       </div>
       <div className="flex items-center justify-between">
-        <span>$500000</span>
-        <ImgCom imgUrl="https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960"
+        <span>{product.price}</span>
+        <ImgCom imgUrl={product.imageURL}
        alt={"product image"}
        className="rounded-full w-10 h-10 object-cover"/>
       
