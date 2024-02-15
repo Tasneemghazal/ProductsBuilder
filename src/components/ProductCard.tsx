@@ -12,7 +12,7 @@ export const ProductCard = ({product}: Iprops) => {
   
   
   return (
-    <div className="border rounded-md p-2 flex flex-col">
+    <div className="max-w-sm md:max-w-lg mx:auto md:mx-0 border rounded-md p-2 flex flex-col">
       <ImgCom imgUrl={product.imageURL}
        alt={"product image"}
        className="rounded-md mb-2"/>
@@ -27,7 +27,7 @@ export const ProductCard = ({product}: Iprops) => {
         <span>{product.price}</span>
         <ImgCom imgUrl={product.imageURL}
        alt={"product image"}
-       className="rounded-full w-10 h-10 object-cover"/>
+       className="rounded-full w-10 h-10 object-fit"/>
       
       </div>
       <div className="flex items-center justify-between space-x-1  mt-5">
