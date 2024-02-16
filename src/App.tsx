@@ -8,7 +8,7 @@ import { IProduct } from "./components/interfaces/interfaces.ts";
 import { productSchema } from "./validation/index.ts";
 import Error from "./components/UI/Error.tsx";
 import CircleColor from "./components/CircleColor.tsx";
-
+import { v4 as uuidv4 } from 'uuid';
 const App = () => {
   const defaultProductObject = {
     title: "",
@@ -22,6 +22,7 @@ const App = () => {
     },
   };
   const [product, setProduct] = useState<IProduct>(defaultProductObject);
+  const [products,setProducts]=useState<IProduct[]>(productList);
   const [isOpen, setIsOpen] = useState(false);
   const [tempColor, setTempColor] = useState<string[]>([]);
   console.log(tempColor);
@@ -70,14 +71,19 @@ const App = () => {
       setErrors(errors);
       return;
     }
-    console.log("product information submitted successfully");
+    console.log({...product,id:uuidv4(),colors:tempColor})
+    setProducts((prev)=>[...prev,{...product,id:uuidv4(),colors:tempColor}]);
+    setProduct(defaultProductObject);
+    setTempColor([]);
+    closeModal();
+   
   }
   function onCancel(): void {
     setProduct(defaultProductObject);
     closeModal();
   }
 
-  const renderProductList = productList.map((product) => (
+  const renderProductList = products.map((product) => (
     <ProductCard key={product.id} product={product} />
   ));
   const renderFormInputList = formInputsList.map((input) => (
@@ -114,8 +120,8 @@ const App = () => {
 
   return (
     <div className="container flex flex-col justify-center items-center">
-      <div className="w-full flex justify-center mt-3 ">
-        <Button className="bg-indigo-600 w-2/4 m-auto" onClick={openModal}>
+      <div className="w-2/4 flex justify-center mt-3 ">
+        <Button className="bg-indigo-600 " onClick={openModal}>
           Build Product
         </Button>
       </div>
