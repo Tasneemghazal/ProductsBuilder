@@ -1,3 +1,4 @@
+import CircleColor from "./CircleColor";
 import ImgCom from "./ImgCom";
 import { Button } from "./UI/Button";
 import { IProduct } from "./interfaces/interfaces";
@@ -8,6 +9,12 @@ interface Iprops {
 }
 
 export const ProductCard = ({product}: Iprops) => {
+  const renderColorList = product.colors.map((color) => (
+    <CircleColor
+      key={color}
+      color={color}
+    />
+  ));
   
   
   return (
@@ -17,11 +24,8 @@ export const ProductCard = ({product}: Iprops) => {
        className="rounded-md mb-2"/>
       <h3>{product.title}</h3>
       <p>{textSclicer(product.description)}</p>
-      <div className="flex my-2 space-x-1">
-      <span className="w-5 h-5 bg-indigo-500 rounded-full cursor-pointer"/>
-      <span className="w-5 h-5 bg-yellow-500 rounded-full cursor-pointer"/>
-      <span className="w-5 h-5 bg-red-500 rounded-full cursor-pointer"/>
-      </div>
+      <div className="flex my-2 space-x-2">{renderColorList}</div>
+     
       <div className="flex items-center justify-between">
         <span>{product.price}</span>
         <ImgCom imgUrl={product.imageURL}
