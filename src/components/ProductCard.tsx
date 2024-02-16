@@ -1,6 +1,5 @@
 import ImgCom from "./ImgCom";
 import { Button } from "./UI/Button";
-import { productList } from "./data/data";
 import { IProduct } from "./interfaces/interfaces";
 import { textSclicer } from "./utilities/functions";
 
