@@ -16,6 +16,7 @@ import CircleColor from "./components/CircleColor.tsx";
 import { v4 as uuidv4 } from "uuid";
 import Select from "./components/UI/Select.tsx";
 import { ProductNameTypes } from "./components/types/type.ts";
+import { ToastContainer, toast } from "react-toastify";
 const App = () => {
   const defaultProductObject = {
     title: "",
@@ -94,6 +95,18 @@ const App = () => {
     const filtered = products.filter(product => product.id !== productToEdit.id);
     setProducts(filtered);
     closeConfirmModal();
+    <ToastContainer
+    position="top-center"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="dark"
+    />
   };
   function submitHandler(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
