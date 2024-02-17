@@ -5,10 +5,12 @@ import { IProduct } from "./interfaces/interfaces";
 import { textSclicer } from "./utilities/functions";
 
 interface Iprops {
-  product:IProduct
+  product:IProduct,
+  setProductToEdit:(product:IProduct) => void,
+  openEditModal:() => void
 }
 
-export const ProductCard = ({product}: Iprops) => {
+export const ProductCard = ({product, setProductToEdit, openEditModal}: Iprops) => {
   const renderColorList = product.colors.map((color) => (
     <CircleColor
       key={color}
