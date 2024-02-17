@@ -12,7 +12,7 @@ interface Iprops {
   setProductToEditIndex:(value:number) => void
 }
 
-export const ProductCard = ({product, setProductToEdit, openEditModal, index,setProductToEditIndex}: Iprops) => {
+export const ProductCard = ({product, setProductToEdit, openEditModal, setProductToEditIndex,index}: Iprops) => {
   const renderColorList = product.colors.map((color) => (
     <CircleColor
       key={color}
@@ -30,7 +30,7 @@ export const ProductCard = ({product, setProductToEdit, openEditModal, index,set
     <div className="max-w-sm md:max-w-lg mx:auto md:mx-0 border rounded-md p-2 flex flex-col">
       <ImgCom imgUrl={product.imageURL}
        alt={"product image"}
-       className="rounded-md mb-2"/>
+       className="rounded-md mb-2 w-full h-full"/>
       <h3>{product.title}</h3>
       <p>{textSclicer(product.description)}</p>
       <div className="flex my-2 space-x-2">{renderColorList}</div>
