@@ -5,14 +5,15 @@ import { IProduct } from "./interfaces/interfaces";
 import { textSclicer } from "./utilities/functions";
 
 interface Iprops {
-  product:IProduct,
-  setProductToEdit:(product:IProduct) => void,
-  openEditModal:() => void,
-  index:number
-  setProductToEditIndex:(value:number) => void
+  product:IProduct;
+  setProductToEdit:(product:IProduct) => void;
+  openEditModal:() => void;
+  index:number;
+  setProductToEditIndex:(value:number) => void;
+  openConfirmModal: () => void;
 }
 
-export const ProductCard = ({product, setProductToEdit, openEditModal, setProductToEditIndex,index}: Iprops) => {
+export const ProductCard = ({product, setProductToEdit, openEditModal, setProductToEditIndex,index,openConfirmModal}: Iprops) => {
   const renderColorList = product.colors.map((color) => (
     <CircleColor
       key={color}
@@ -24,6 +25,10 @@ export const ProductCard = ({product, setProductToEdit, openEditModal, setProduc
     setProductToEdit(product);
     openEditModal();
     setProductToEditIndex(index);
+  }
+  const onRemove=()=>{
+    setProductToEdit(product);
+    openConfirmModal();
   }
   
   return (
@@ -44,7 +49,7 @@ export const ProductCard = ({product, setProductToEdit, openEditModal, setProduc
       </div>
       <div className="flex items-center justify-between space-x-1  mt-5">
         <Button className="bg-indigo-600 " onClick={editProduct}>Edit</Button>
-        <Button className="bg-red-600 ">Remove</Button>
+        <Button className="bg-red-600 " onClick={onRemove}>Remove</Button>
       </div>
     </div>
     

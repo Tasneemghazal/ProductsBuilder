@@ -36,8 +36,9 @@ const App = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [tempColor, setTempColor] = useState<string[]>([]);
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const [selected, setSelected] = useState(categories[0]);
-  console.log(productToEditIndex);
+
   const [Errors, setErrors] = useState({
     title: "",
     description: "",
@@ -59,6 +60,8 @@ const App = () => {
   function openEditModal() {
     setIsOpenModal(true);
   }
+  function closeConfirmModal() {setIsOpenConfirmModal(false);}
+  function openConfirmModal () {setIsOpenConfirmModal(true);}
   const onChangeHandler = (
     event: ChangeEvent<HTMLInputElement>,
     inputName: string
@@ -87,7 +90,11 @@ const App = () => {
       [inputName]: "",
     });
   };
-
+  function removeProductHandler () {
+    const filtered = products.filter(product => product.id !== productToEdit.id);
+    setProducts(filtered);
+    closeConfirmModal();
+  };
   function submitHandler(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     const errors = productSchema({
@@ -98,8 +105,8 @@ const App = () => {
     });
 
     const hasErrorMessage =
-      Object.values(errors).some((value) => value == "") &&
-      Object.values(errors).every((value) => value == "");
+      Object.values(errors).some((value) => value === "") &&
+      Object.values(errors).every((value) => value === "");
     if (!hasErrorMessage) {
       setErrors(errors);
       return;
@@ -123,15 +130,18 @@ const App = () => {
     });
 
     const hasErrorMessage =
-      Object.values(errors).some((value) => value == "") &&
-      Object.values(errors).every((value) => value == "");
+      Object.values(errors).some((value) => value === "") &&
+      Object.values(errors).every((value) => value === "");
     if (!hasErrorMessage) {
       setErrors(errors);
       return;
     }
 
     const updatedProducts = [...products];
-    updatedProducts[productToEditIndex] = {...productToEdit,colors:tempColor.concat(productToEdit.colors)};
+    updatedProducts[productToEditIndex] = {
+      ...productToEdit,
+      colors: tempColor.concat(productToEdit.colors),
+    };
     setProducts(updatedProducts);
     setProductToEdit(defaultProductObject);
     setTempColor([]);
@@ -150,6 +160,7 @@ const App = () => {
       openEditModal={openEditModal}
       setProductToEditIndex={setProductToEditIndex}
       index={index}
+      openConfirmModal={openConfirmModal}
     />
   ));
   const renderFormInputList = formInputsList.map((input) => (
@@ -187,7 +198,7 @@ const App = () => {
           type="text"
           id={id}
           name={name}
-          value={productToEdit[name]} 
+          value={productToEdit[name]}
           onChange={(event) => onChangeEditHandler(event, name)}
         />
         <Error msg={Errors[name]} />
@@ -232,7 +243,7 @@ const App = () => {
       >
         <form className="space-y-3" onSubmit={submitHandler}>
           {renderFormInputList}
-        
+
           <Select selected={selected} setSelected={setSelected} />
           <div className="flex my-2 space-x-2">
             {tempColor.map((color) => (
@@ -271,8 +282,13 @@ const App = () => {
           {renderEditProduct("description", "description", "Description")}
           {renderEditProduct("imageURL", "imageURL", "Image URL")}
           {renderEditProduct("price", "price", "Price")}
-          
-          <Select selected={selected} setSelected={setSelected} />
+
+          <Select
+            selected={productToEdit.category}
+            setSelected={(value) =>
+              setProductToEdit({ ...productToEdit, category: value })
+            }
+          />
           <div className="flex my-2 space-x-2">
             {tempColor.concat(productToEdit.colors).map((color) => (
               <span
@@ -297,6 +313,29 @@ const App = () => {
             </Button>
           </div>
         </form>
+      </MyDialog>
+
+      {/* Remove Product*/}
+      <MyDialog
+        isOpen={isOpenConfirmModal}
+        closeModal={closeConfirmModal}
+        title="Are you sure you want to remove this Product from your Store?"
+        
+      >
+        <div className="flex items-center space-x-2">
+          <Button
+            className="bg-red-600 hover:bg-red-700"
+            onClick={removeProductHandler}
+          >
+            yes, Remove
+          </Button>
+          <Button
+            className="bg-gray-300 hover:bg-gray-500"
+            onClick={closeConfirmModal}
+          >
+            Close
+          </Button>
+        </div>
       </MyDialog>
     </div>
   );
