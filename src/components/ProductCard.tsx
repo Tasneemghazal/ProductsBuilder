@@ -7,10 +7,12 @@ import { textSclicer } from "./utilities/functions";
 interface Iprops {
   product:IProduct,
   setProductToEdit:(product:IProduct) => void,
-  openEditModal:() => void
+  openEditModal:() => void,
+  index:number
+  setProductToEditIndex:(value:number) => void
 }
 
-export const ProductCard = ({product, setProductToEdit, openEditModal}: Iprops) => {
+export const ProductCard = ({product, setProductToEdit, openEditModal, index,setProductToEditIndex}: Iprops) => {
   const renderColorList = product.colors.map((color) => (
     <CircleColor
       key={color}
@@ -18,6 +20,11 @@ export const ProductCard = ({product, setProductToEdit, openEditModal}: Iprops) 
     />
   ));
   
+  const editProduct=()=>{
+    setProductToEdit(product);
+    openEditModal();
+    setProductToEditIndex(index);
+  }
   
   return (
     <div className="max-w-sm md:max-w-lg mx:auto md:mx-0 border rounded-md p-2 flex flex-col">
@@ -36,7 +43,7 @@ export const ProductCard = ({product, setProductToEdit, openEditModal}: Iprops) 
       
       </div>
       <div className="flex items-center justify-between space-x-1  mt-5">
-        <Button className="bg-indigo-600 ">Edit</Button>
+        <Button className="bg-indigo-600 " onClick={editProduct}>Edit</Button>
         <Button className="bg-red-600 ">Remove</Button>
       </div>
     </div>
